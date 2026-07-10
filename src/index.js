@@ -141,8 +141,8 @@ document.getElementById('langSel').value=l;
 applyLang(l);
 document.getElementById('langSel').onchange=function(){localStorage.setItem('sl',this.value);applyLang(this.value)};
 function applyLang(l){document.documentElement.lang=l;document.querySelectorAll('[data-t]').forEach(function(e){var k=e.getAttribute('data-t');if(D[l]&&D[l][k])e.innerHTML=D[l][k]})}})();
-<\/script>
-${content.includes('textarea')?`<script>function t(id){var e=document.getElementById(id);return e?e.value:''}
+${content.includes('textarea')?`
+function t(id){var e=document.getElementById(id);return e?e.value:''}
 function copy(id){var e=document.getElementById(id);if(!e)return;var t;if(e.tagName==='TEXTAREA'||e.tagName==='INPUT'){e.select();navigator.clipboard.writeText(e.value)}else{t=e.textContent;navigator.clipboard.writeText(t)}
 var b=event.target;var ot=b.textContent;b.textContent=D[document.documentElement.lang].copied;setTimeout(function(){b.textContent=ot},1500)}`:''}
 <\/script>
