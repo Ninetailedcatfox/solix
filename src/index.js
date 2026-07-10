@@ -2,15 +2,13 @@ export default {
   async fetch(request) {
     const url = new URL(request.url)
 
+    const headers = { 'content-type': 'text/html;charset=UTF-8', 'cache-control': 'no-cache, no-store, must-revalidate' }
+
     if (url.pathname === '/pricing') {
-      return new Response(pricingPage(), {
-        headers: { 'content-type': 'text/html;charset=UTF-8' }
-      })
+      return new Response(pricingPage(), { headers })
     }
 
-    return new Response(landingPage(), {
-      headers: { 'content-type': 'text/html;charset=UTF-8' }
-    })
+    return new Response(landingPage(), { headers })
   }
 }
 
@@ -65,16 +63,16 @@ footer{text-align:center;padding:3rem 2rem;color:#888;font-size:0.9rem;border-to
 <div class="logo">solix</div>
 <div class="nav-links">
 <a href="/pricing">Pricing</a>
-<a href="#" class="btn btn-outline">Sign In</a>
-<a href="#" class="btn">Get Started</a>
+<a href="/pricing" class="btn btn-outline">Sign In</a>
+<a href="/pricing" class="btn">Get Started</a>
 </div>
 </nav>
 <section class="hero">
 <h1>Create Content with <span>AI</span>,<br>10x Faster</h1>
 <p>Generate blog posts, social media content, and marketing copy powered by AI. Pay as you go. No subscription required.</p>
 <div class="hero-btns">
-<a href="#" class="btn">Start Free →</a>
-<a href="#" class="btn btn-outline">View Pricing</a>
+<a href="/pricing" class="btn">Start Free →</a>
+<a href="/pricing" class="btn btn-outline">View Pricing</a>
 </div>
 </section>
 <section class="features">
@@ -100,7 +98,7 @@ footer{text-align:center;padding:3rem 2rem;color:#888;font-size:0.9rem;border-to
 <li>Basic templates</li>
 <li>Email support</li>
 </ul>
-<a href="#" class="btn btn-outline">Get Started</a>
+<a href="/pricing" class="btn btn-outline">Get Started</a>
 </div>
 <div class="price-card featured">
 <div class="name">Pro</div>
@@ -113,7 +111,7 @@ footer{text-align:center;padding:3rem 2rem;color:#888;font-size:0.9rem;border-to
 <li>API access</li>
 <li>Bulk generation</li>
 </ul>
-<a href="#" class="btn">Get Started</a>
+<a href="/pricing" class="btn">Get Started</a>
 </div>
 <div class="price-card">
 <div class="name">Enterprise</div>
@@ -126,7 +124,7 @@ footer{text-align:center;padding:3rem 2rem;color:#888;font-size:0.9rem;border-to
 <li>SSO & SAML</li>
 <li>SLA guarantee</li>
 </ul>
-<a href="#" class="btn btn-outline">Contact Sales</a>
+<a href="/pricing" class="btn btn-outline">Contact Sales</a>
 </div>
 </div>
 </section>
@@ -189,7 +187,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 <li>Basic templates</li>
 <li>Email support</li>
 </ul>
-<a href="#" class="btn-outline">Get Started</a>
+<a href="/" class="btn-outline">Get Started</a>
 </div>
 <div class="price-card featured">
 <div class="name">Pro</div>
@@ -202,7 +200,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 <li>API access</li>
 <li>Bulk generation</li>
 </ul>
-<a href="#" class="btn">Get Started</a>
+<a href="/" class="btn">Get Started</a>
 </div>
 <div class="price-card">
 <div class="name">Enterprise</div>
@@ -215,7 +213,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 <li>SSO & SAML</li>
 <li>SLA guarantee</li>
 </ul>
-<a href="#" class="btn-outline">Contact Sales</a>
+<a href="/" class="btn-outline">Contact Sales</a>
 </div>
 </div>
 </section>
