@@ -7,40 +7,40 @@ export default {
   }
 }
 
-const LANGUAGES = { zh: '中文', en: 'English' }
-
-const TEXTS = {
+const L = {
   zh: {
     navF1: '功能', navF2: '定价', navSignin: '登录', navStart: '开始使用',
-    heroBadge: '🚀 AI 驱动内容创作', heroTitle: '用 <span>AI</span> 创作内容，<br>效率提升 <span>10 倍</span>',
+    heroBadge: 'AI 驱动内容创作',
+    heroTitle: '用 <span>AI</span> 创作内容，<br>效率提升 <span>10 倍</span>',
     heroDesc: 'AI 驱动生成博客文章、社交媒体内容和营销文案。按量付费，无需订阅。',
-    heroCTA: '免费开始 →', heroPricing: '了解更多',
-    featuresTitle: '创作所需的一切', featuresSub: '强大的工具帮助你更快地创作更好的内容。',
+    heroCTA: '免费开始', heroPricing: '了解更多',
+    statsUsers: '活跃用户', statsContent: '生成内容', statsCountries: '覆盖国家',
+    featuresTitle: '创作所需的一切', featuresSub: '强大的工具帮助你更快创作更好的内容。',
     f1Title: '博客文章', f1Desc: '在几秒内生成 SEO 优化的博客文章。选择语气、长度和格式。',
     f2Title: '社交媒体', f2Desc: '为 Twitter、LinkedIn 和 Instagram 创建 AI 驱动的帖子。',
     f3Title: '营销文案', f3Desc: '撰写转化率高的邮件、落地页和广告文案。',
-    f4Title: '模板库', f4Desc: '使用经过验证的模板，快速为你的行业定制内容。',
+    f4Title: '模板库', f4Desc: '使用经过验证的模板快速为你的行业定制内容。',
     f5Title: '批量生成', f5Desc: '一次批量生成数十条内容，大幅提高效率。',
     f6Title: 'API 接入', f6Desc: '将 AI 内容生成集成到你自己的应用和工作流中。',
-    statsUsers: '活跃用户', statsContent: '生成内容', statsCountries: '覆盖国家',
     pricingTitle: '简单透明的定价', pricingSub: '无隐藏费用，按需付费。', popular: '最受欢迎',
-    p1Name: '入门版', p1Price: '$9<span>/月</span>', p1Desc: '适合个人用户',
-    p1F1: '每月 50 次生成', p1F2: '基础模板', p1F3: '邮件支持',
-    p1Btn: '开始使用',
-    p2Name: '专业版', p2Price: '$29<span>/月</span>', p2Desc: '适合专业人士和团队',
+    p1Name: '入门版', p1Price: '$9/月', p1Desc: '适合个人用户',
+    p1F1: '每月 50 次生成', p1F2: '基础模板', p1F3: '邮件支持', p1Btn: '开始使用',
+    p2Name: '专业版', p2Price: '$29/月', p2Desc: '适合专业人士和团队',
     p2F1: '每月 500 次生成', p2F2: '全部模板', p2F3: '优先支持',
     p2F4: 'API 接入', p2F5: '批量生成', p2Btn: '开始使用',
     p3Name: '企业版', p3Price: '定制', p3Desc: '适合大规模部署',
     p3F1: '无限生成', p3F2: '定制模板', p3F3: '专属支持',
     p3F4: 'SSO & SAML', p3F5: 'SLA 保障', p3Btn: '联系销售',
-    ctaTitle: '准备好开始了吗？', ctaDesc: '立即注册，免费试用。无需信用卡。', ctaBtn: '免费开始 →',
+    ctaTitle: '准备好开始了吗？', ctaDesc: '立即注册，免费试用。无需信用卡。', ctaBtn: '免费开始',
     footer: '© 2026 Solix 保留所有权利'
   },
   en: {
     navF1: 'Features', navF2: 'Pricing', navSignin: 'Sign In', navStart: 'Get Started',
-    heroBadge: '🚀 AI-Powered Content Creation', heroTitle: 'Create Content with <span>AI</span>,<br><span>10x</span> Faster',
-    heroDesc: 'Generate blog posts, social media content, and marketing copy powered by AI. Pay as you go. No subscription required.',
-    heroCTA: 'Start Free →', heroPricing: 'Learn More',
+    heroBadge: 'AI-Powered Content Creation',
+    heroTitle: 'Create Content with <span>AI</span>,<br><span>10x</span> Faster',
+    heroDesc: 'Generate blog posts, social media content, and marketing copy powered by AI.',
+    heroCTA: 'Start Free', heroPricing: 'Learn More',
+    statsUsers: 'Active Users', statsContent: 'Content Generated', statsCountries: 'Countries',
     featuresTitle: 'Everything you need to create', featuresSub: 'Powerful tools to help you create better content faster.',
     f1Title: 'Blog Posts', f1Desc: 'Generate SEO-optimized blog posts in seconds. Choose tone, length, and format.',
     f2Title: 'Social Media', f2Desc: 'Create engaging posts for Twitter, LinkedIn, and Instagram with AI.',
@@ -48,18 +48,16 @@ const TEXTS = {
     f4Title: 'Templates', f4Desc: 'Start with proven templates designed for your industry and audience.',
     f5Title: 'Bulk Generate', f5Desc: 'Generate dozens of pieces of content at once with batch processing.',
     f6Title: 'API Access', f6Desc: 'Integrate our AI content generation into your own apps and workflows.',
-    statsUsers: 'Active Users', statsContent: 'Content Generated', statsCountries: 'Countries',
-    pricingTitle: 'Simple, transparent pricing', pricingSub: 'No hidden fees. No surprises. Pay only for what you use.', popular: 'Most Popular',
-    p1Name: 'Starter', p1Price: '$9<span>/mo</span>', p1Desc: 'For individuals getting started',
-    p1F1: '50 generations/mo', p1F2: 'Basic templates', p1F3: 'Email support',
-    p1Btn: 'Get Started',
-    p2Name: 'Pro', p2Price: '$29<span>/mo</span>', p2Desc: 'For professionals and teams',
+    pricingTitle: 'Simple, transparent pricing', pricingSub: 'No hidden fees. Pay only for what you use.', popular: 'Most Popular',
+    p1Name: 'Starter', p1Price: '$9/mo', p1Desc: 'For individuals getting started',
+    p1F1: '50 generations/mo', p1F2: 'Basic templates', p1F3: 'Email support', p1Btn: 'Get Started',
+    p2Name: 'Pro', p2Price: '$29/mo', p2Desc: 'For professionals and teams',
     p2F1: '500 generations/mo', p2F2: 'All templates', p2F3: 'Priority support',
     p2F4: 'API access', p2F5: 'Bulk generation', p2Btn: 'Get Started',
     p3Name: 'Enterprise', p3Price: 'Custom', p3Desc: 'For large scale deployments',
     p3F1: 'Unlimited generations', p3F2: 'Custom templates', p3F3: 'Dedicated support',
     p3F4: 'SSO & SAML', p3F5: 'SLA guarantee', p3Btn: 'Contact Sales',
-    ctaTitle: 'Ready to get started?', ctaDesc: 'Sign up for free. No credit card required.', ctaBtn: 'Start Free →',
+    ctaTitle: 'Ready to get started?', ctaDesc: 'Sign up for free. No credit card required.', ctaBtn: 'Start Free',
     footer: '© 2026 Solix. All rights reserved.'
   }
 }
@@ -78,8 +76,8 @@ function landingPage() {
 html{scroll-behavior:smooth}
 body{font-family:Inter,system-ui,-apple-system,sans-serif;background:#f8fafd;color:#0b1a2e;overflow-x:hidden;line-height:1.6}
 ::selection{background:#2563eb;color:#fff}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;max-width:1280px;margin:0 auto;background:rgba(248,250,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
-.nav-inner{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1280px;margin:0 auto}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,250,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;max-width:1280px;margin:0 auto}
 .logo{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#1e40af,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .nav-center{display:flex;gap:2.5rem;align-items:center}
 .nav-center a{color:#4a5a72;text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
@@ -124,13 +122,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .price-card.featured{border-color:#2563eb;box-shadow:0 4px 24px rgba(37,99,235,.1)}
 .price-card.featured .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.25rem 1rem;border-radius:100px;font-size:.75rem;font-weight:600}
 .price-name{color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03em}
+.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03rem}
 .price-value span{font-size:1rem;font-weight:400;color:#7a8ba7}
 .price-desc{color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem}
 .price-features{list-style:none;text-align:left;margin-bottom:2rem;display:flex;flex-direction:column;gap:.6rem}
 .price-features li{color:#3a4a62;font-size:.9rem;display:flex;align-items:center;gap:.5rem}
-.price-features li:before{content:"";width:18px;height:18px;background:#e8f0fe;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#2563eb;flex-shrink:0}
-.price-features li i:before{content:"✓"}
+.price-features li:before{content:"✓";width:18px;height:18px;background:#e8f0fe;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#2563eb;flex-shrink:0}
 .price-card .btn,.price-card .btn-outline{width:100%;display:block;text-align:center;padding:.8rem 0;font-size:.9rem}
 .cta{max-width:1200px;margin:0 auto;padding:2rem;text-align:center}
 .cta-box{background:linear-gradient(135deg,#1e3a6f,#312e81);border-radius:20px;padding:4rem 2rem;color:#fff}
@@ -140,11 +137,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .cta-box .btn:hover{box-shadow:0 8px 25px rgba(255,255,255,.25)}
 footer{text-align:center;padding:3rem 2rem;color:#7a8ba7;font-size:.85rem;max-width:1200px;margin:0 auto}
 @media(max-width:768px){
-  .hero h1{font-size:2.4rem}
-  .feature-grid,.pricing-grid{grid-template-columns:1fr}
-  .stats{flex-direction:column;gap:1.5rem}
-  .nav-center{display:none}
-  .hero{padding:7rem 1.5rem 4rem}
+  .hero h1{font-size:2.4rem}.feature-grid,.pricing-grid{grid-template-columns:1fr}
+  .stats{flex-direction:column;gap:1.5rem}.nav-center{display:none}.hero{padding:7rem 1.5rem 4rem}
 }
 @media(max-width:1024px)and(min-width:769px){
   .feature-grid,.pricing-grid{grid-template-columns:repeat(2,1fr)}
@@ -157,16 +151,16 @@ footer{text-align:center;padding:3rem 2rem;color:#7a8ba7;font-size:.85rem;max-wi
 <div class="nav-inner">
 <div class="logo">solix</div>
 <div class="nav-center">
-<a href="#features" data-i18n-navF1="1">Features</a>
-<a href="#pricing" data-i18n-navF2="1">Pricing</a>
+<a href="#features" data-i18n="navF1">Features</a>
+<a href="#pricing" data-i18n="navF2">Pricing</a>
 </div>
 <div class="nav-right">
-<select class="lang-btn" id="langSelect" onchange="switchLang(this.value)">
+<select class="lang-btn" id="langSelect">
 <option value="zh">中文</option>
 <option value="en">English</option>
 </select>
-<a href="/pricing" class="btn-outline" data-i18n-navSignin="1">Sign In</a>
-<a href="/pricing" class="btn" data-i18n-navStart="1">Get Started</a>
+<a href="/pricing" class="btn-outline" data-i18n="navSignin">Sign In</a>
+<a href="/pricing" class="btn" data-i18n="navStart">Get Started</a>
 </div>
 </div>
 </nav>
@@ -174,114 +168,108 @@ footer{text-align:center;padding:3rem 2rem;color:#7a8ba7;font-size:.85rem;max-wi
 <section class="hero">
 <div class="hero-bg"></div>
 <div class="hero-content">
-<div class="hero-badge" data-i18n-heroBadge="1">🚀 AI-Powered Content Creation</div>
-<h1 data-i18n-heroTitle="1">Create Content with <span>AI</span>,<br><span>10x</span> Faster</h1>
-<p data-i18n-heroDesc="1">Generate blog posts, social media content, and marketing copy powered by AI. Pay as you go. No subscription required.</p>
+<div class="hero-badge" data-i18n="heroBadge">AI-Powered Content Creation</div>
+<h1 data-i18n="heroTitle">Create Content with <span>AI</span>,<br><span>10x</span> Faster</h1>
+<p data-i18n="heroDesc">Generate blog posts, social media content, and marketing copy powered by AI.</p>
 <div class="hero-btns">
-<a href="/pricing" class="btn" data-i18n-heroCTA="1">Start Free →</a>
-<a href="#features" class="btn-outline" data-i18n-heroPricing="1">Learn More</a>
+<a href="/pricing" class="btn" data-i18n="heroCTA">Start Free</a>
+<a href="#features" class="btn-outline" data-i18n="heroPricing">Learn More</a>
 </div>
 <div class="stats">
-<div class="stat"><div class="stat-num">50K+</div><div class="stat-label" data-i18n-statsUsers="1">Active Users</div></div>
-<div class="stat"><div class="stat-num">1M+</div><div class="stat-label" data-i18n-statsContent="1">Content Generated</div></div>
-<div class="stat"><div class="stat-num">120+</div><div class="stat-label" data-i18n-statsCountries="1">Countries</div></div>
+<div class="stat"><div class="stat-num">50K+</div><div class="stat-label" data-i18n="statsUsers">Active Users</div></div>
+<div class="stat"><div class="stat-num">1M+</div><div class="stat-label" data-i18n="statsContent">Content Generated</div></div>
+<div class="stat"><div class="stat-num">120+</div><div class="stat-label" data-i18n="statsCountries">Countries</div></div>
 </div>
 </div>
 </section>
 
 <section class="features" id="features">
 <div class="features-header">
-<h2 data-i18n-featuresTitle="1">Everything you need to create</h2>
-<p data-i18n-featuresSub="1">Powerful tools to help you create better content faster.</p>
+<h2 data-i18n="featuresTitle">Everything you need to create</h2>
+<p data-i18n="featuresSub">Powerful tools to help you create better content faster.</p>
 </div>
 <div class="feature-grid">
-<div class="feature-card"><div class="feature-icon">✍️</div><h3 data-i18n-f1Title="1">Blog Posts</h3><p data-i18n-f1Desc="1">Generate SEO-optimized blog posts in seconds. Choose tone, length, and format.</p></div>
-<div class="feature-card"><div class="feature-icon">📱</div><h3 data-i18n-f2Title="1">Social Media</h3><p data-i18n-f2Desc="1">Create engaging posts for Twitter, LinkedIn, and Instagram with AI.</p></div>
-<div class="feature-card"><div class="feature-icon">📧</div><h3 data-i18n-f3Title="1">Marketing Copy</h3><p data-i18n-f3Desc="1">Write compelling emails, landing pages, and ad copy that converts.</p></div>
-<div class="feature-card"><div class="feature-icon">🎨</div><h3 data-i18n-f4Title="1">Templates</h3><p data-i18n-f4Desc="1">Start with proven templates designed for your industry and audience.</p></div>
-<div class="feature-card"><div class="feature-icon">⚡</div><h3 data-i18n-f5Title="1">Bulk Generate</h3><p data-i18n-f5Desc="1">Generate dozens of pieces of content at once with batch processing.</p></div>
-<div class="feature-card"><div class="feature-icon">🔗</div><h3 data-i18n-f6Title="1">API Access</h3><p data-i18n-f6Desc="1">Integrate our AI content generation into your own apps and workflows.</p></div>
+<div class="feature-card"><div class="feature-icon">✍️</div><h3 data-i18n="f1Title">Blog Posts</h3><p data-i18n="f1Desc">Generate SEO-optimized blog posts in seconds.</p></div>
+<div class="feature-card"><div class="feature-icon">📱</div><h3 data-i18n="f2Title">Social Media</h3><p data-i18n="f2Desc">Create engaging posts for Twitter, LinkedIn, and Instagram with AI.</p></div>
+<div class="feature-card"><div class="feature-icon">📧</div><h3 data-i18n="f3Title">Marketing Copy</h3><p data-i18n="f3Desc">Write compelling emails, landing pages, and ad copy that converts.</p></div>
+<div class="feature-card"><div class="feature-icon">🎨</div><h3 data-i18n="f4Title">Templates</h3><p data-i18n="f4Desc">Start with proven templates designed for your industry.</p></div>
+<div class="feature-card"><div class="feature-icon">⚡</div><h3 data-i18n="f5Title">Bulk Generate</h3><p data-i18n="f5Desc">Generate dozens of pieces of content at once with batch processing.</p></div>
+<div class="feature-card"><div class="feature-icon">🔗</div><h3 data-i18n="f6Title">API Access</h3><p data-i18n="f6Desc">Integrate AI content generation into your own apps and workflows.</p></div>
 </div>
 </section>
 
 <section class="pricing" id="pricing">
 <div class="pricing-header">
-<h2 data-i18n-pricingTitle="1">Simple, transparent pricing</h2>
-<p data-i18n-pricingSub="1">No hidden fees. No surprises. Pay only for what you use.</p>
+<h2 data-i18n="pricingTitle">Simple, transparent pricing</h2>
+<p data-i18n="pricingSub">No hidden fees. Pay only for what you use.</p>
 </div>
 <div class="pricing-grid">
 <div class="price-card">
-<div class="price-name" data-i18n-p1Name="1">Starter</div>
-<div class="price-value" data-i18n-p1Price="1">$9<span>/mo</span></div>
-<div class="price-desc" data-i18n-p1Desc="1">For individuals getting started</div>
+<div class="price-name" data-i18n="p1Name">Starter</div>
+<div class="price-value" data-i18n="p1Price">$9<span>/mo</span></div>
+<div class="price-desc" data-i18n="p1Desc">For individuals getting started</div>
 <ul class="price-features">
-<li><i></i><span data-i18n-p1F1="1">50 generations/mo</span></li>
-<li><i></i><span data-i18n-p1F2="1">Basic templates</span></li>
-<li><i></i><span data-i18n-p1F3="1">Email support</span></li>
+<li data-i18n="p1F1">50 generations/mo</li>
+<li data-i18n="p1F2">Basic templates</li>
+<li data-i18n="p1F3">Email support</li>
 </ul>
-<a href="/pricing" class="btn-outline" data-i18n-p1Btn="1">Get Started</a>
+<a href="/pricing" class="btn-outline" data-i18n="p1Btn">Get Started</a>
 </div>
 <div class="price-card featured">
-<div class="badge" data-i18n-popular="1">Most Popular</div>
-<div class="price-name" data-i18n-p2Name="1">Pro</div>
-<div class="price-value" data-i18n-p2Price="1">$29<span>/mo</span></div>
-<div class="price-desc" data-i18n-p2Desc="1">For professionals and teams</div>
+<div class="badge" data-i18n="popular">Most Popular</div>
+<div class="price-name" data-i18n="p2Name">Pro</div>
+<div class="price-value" data-i18n="p2Price">$29<span>/mo</span></div>
+<div class="price-desc" data-i18n="p2Desc">For professionals and teams</div>
 <ul class="price-features">
-<li><i></i><span data-i18n-p2F1="1">500 generations/mo</span></li>
-<li><i></i><span data-i18n-p2F2="1">All templates</span></li>
-<li><i></i><span data-i18n-p2F3="1">Priority support</span></li>
-<li><i></i><span data-i18n-p2F4="1">API access</span></li>
-<li><i></i><span data-i18n-p2F5="1">Bulk generation</span></li>
+<li data-i18n="p2F1">500 generations/mo</li>
+<li data-i18n="p2F2">All templates</li>
+<li data-i18n="p2F3">Priority support</li>
+<li data-i18n="p2F4">API access</li>
+<li data-i18n="p2F5">Bulk generation</li>
 </ul>
-<a href="/pricing" class="btn" data-i18n-p2Btn="1">Get Started</a>
+<a href="/pricing" class="btn" data-i18n="p2Btn">Get Started</a>
 </div>
 <div class="price-card">
-<div class="price-name" data-i18n-p3Name="1">Enterprise</div>
-<div class="price-value" data-i18n-p3Price="1">Custom</div>
-<div class="price-desc" data-i18n-p3Desc="1">For large scale deployments</div>
+<div class="price-name" data-i18n="p3Name">Enterprise</div>
+<div class="price-value" data-i18n="p3Price">Custom</div>
+<div class="price-desc" data-i18n="p3Desc">For large scale deployments</div>
 <ul class="price-features">
-<li><i></i><span data-i18n-p3F1="1">Unlimited generations</span></li>
-<li><i></i><span data-i18n-p3F2="1">Custom templates</span></li>
-<li><i></i><span data-i18n-p3F3="1">Dedicated support</span></li>
-<li><i></i><span data-i18n-p3F4="1">SSO & SAML</span></li>
-<li><i></i><span data-i18n-p3F5="1">SLA guarantee</span></li>
+<li data-i18n="p3F1">Unlimited generations</li>
+<li data-i18n="p3F2">Custom templates</li>
+<li data-i18n="p3F3">Dedicated support</li>
+<li data-i18n="p3F4">SSO & SAML</li>
+<li data-i18n="p3F5">SLA guarantee</li>
 </ul>
-<a href="/pricing" class="btn-outline" data-i18n-p3Btn="1">Contact Sales</a>
+<a href="/pricing" class="btn-outline" data-i18n="p3Btn">Contact Sales</a>
 </div>
 </div>
 </section>
 
 <section class="cta">
 <div class="cta-box">
-<h2 data-i18n-ctaTitle="1">Ready to get started?</h2>
-<p data-i18n-ctaDesc="1">Sign up for free. No credit card required.</p>
-<a href="/pricing" class="btn" data-i18n-ctaBtn="1">Start Free →</a>
+<h2 data-i18n="ctaTitle">Ready to get started?</h2>
+<p data-i18n="ctaDesc">Sign up for free. No credit card required.</p>
+<a href="/pricing" class="btn" data-i18n="ctaBtn">Start Free</a>
 </div>
 </section>
 
-<footer>
-<p data-i18n-footer="1">© 2026 Solix. All rights reserved.</p>
-</footer>
+<footer><p data-i18n="footer">© 2026 Solix. All rights reserved.</p></footer>
 
 <script>
-const L = ${JSON.stringify(TEXTS)};
-
-function switchLang(lang) {
-  document.documentElement.lang = lang;
-  document.querySelectorAll('*').forEach(el => {
-    for (let i = 0; i < el.attributes.length; i++) {
-      const attr = el.attributes[i];
-      if (attr.name.startsWith('data-i18n-')) {
-        const key = attr.name.replace('data-i18n-', '');
-        if (L[lang] && L[lang][key]) el.innerHTML = L[lang][key];
-      }
-    }
+const D = ${JSON.stringify(L)};
+function setLang(l) {
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(e => {
+    const k = e.getAttribute('data-i18n');
+    if (D[l] && D[l][k]) e.innerHTML = D[l][k];
   });
 }
-
-const browserLang = navigator.language.startsWith('zh') ? 'zh' : 'en';
-document.getElementById('langSelect').value = browserLang;
-switchLang(browserLang);
+document.getElementById('langSelect').addEventListener('change', function() { setLang(this.value); });
+(function() {
+  const l = navigator.language.startsWith('zh') ? 'zh' : 'en';
+  document.getElementById('langSelect').value = l;
+  setLang(l);
+})();
 </script>
 </body>
 </html>`
@@ -310,12 +298,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 .price-card.featured{border-color:#2563eb;box-shadow:0 4px 24px rgba(37,99,235,.1)}
 .price-card.featured .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.25rem 1rem;border-radius:100px;font-size:.75rem;font-weight:600}
 .price-name{color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03em}
+.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03rem}
 .price-value span{font-size:1rem;font-weight:400;color:#7a8ba7}
 .price-desc{color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem}
-.price-features{list-style:none;text-align:left;margin-bottom:2rem;display:flex;flex-direction:column;gap:.6rem}
-.price-features li{color:#3a4a62;font-size:.9rem;display:flex;align-items:center;gap:.5rem}
-.price-features li:before{content:"✓";width:18px;height:18px;background:#e8f0fe;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#2563eb;flex-shrink:0}
+.price-features{list-style:none;text-align:left;margin-bottom:2rem}
+.price-features li{color:#3a4a62;font-size:.9rem;padding:.4rem 0}
+.price-features li:before{content:"✓";color:#2563eb;margin-right:.5rem}
 .btn{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.8rem 0;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;display:block;text-align:center;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(37,99,235,.3)}
 .btn-outline{background:0 0;color:#0b1a2e;border:1.5px solid #d0d8e6;padding:.75rem 0;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;display:block;text-align:center;transition:all .2s}
@@ -326,9 +314,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 <body>
 <nav>
 <a href="/" class="logo">solix</a>
-<div class="nav-links">
-<a href="/">Home</a>
-</div>
+<div class="nav-links"><a href="/">Home</a></div>
 </nav>
 <section class="pricing">
 <h1>Pricing</h1>
@@ -339,9 +325,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 <div class="price-value">$9<span>/mo</span></div>
 <div class="price-desc">For individuals getting started</div>
 <ul class="price-features">
-<li>50 generations/mo</li>
-<li>Basic templates</li>
-<li>Email support</li>
+<li>50 generations/mo</li><li>Basic templates</li><li>Email support</li>
 </ul>
 <a href="/" class="btn-outline">Get Started</a>
 </div>
@@ -351,11 +335,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 <div class="price-value">$29<span>/mo</span></div>
 <div class="price-desc">For professionals and teams</div>
 <ul class="price-features">
-<li>500 generations/mo</li>
-<li>All templates</li>
-<li>Priority support</li>
-<li>API access</li>
-<li>Bulk generation</li>
+<li>500 generations/mo</li><li>All templates</li><li>Priority support</li><li>API access</li><li>Bulk generation</li>
 </ul>
 <a href="/" class="btn">Get Started</a>
 </div>
@@ -364,11 +344,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2
 <div class="price-value">Custom</div>
 <div class="price-desc">For large scale deployments</div>
 <ul class="price-features">
-<li>Unlimited generations</li>
-<li>Custom templates</li>
-<li>Dedicated support</li>
-<li>SSO & SAML</li>
-<li>SLA guarantee</li>
+<li>Unlimited generations</li><li>Custom templates</li><li>Dedicated support</li><li>SSO & SAML</li><li>SLA guarantee</li>
 </ul>
 <a href="/" class="btn-outline">Contact Sales</a>
 </div>
