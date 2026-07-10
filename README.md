@@ -1,0 +1,2 @@
+# solix
+solix landing page
