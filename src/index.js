@@ -1,355 +1,338 @@
 export default {
   async fetch(request) {
     const url = new URL(request.url)
-    const headers = { 'content-type': 'text/html;charset=UTF-8', 'cache-control': 'no-cache, no-store, must-revalidate' }
-    if (url.pathname === '/pricing') return new Response(pricingPage(), { headers })
-    return new Response(landingPage(), { headers })
+    const path = url.pathname
+    const headers = { 'content-type': 'text/html;charset=UTF-8', 'cache-control': 'no-cache' }
+
+    const pages = {
+      '/': landingPage,
+      '/pricing': pricingPage,
+      '/features': featuresPage,
+      '/docs': docsPage,
+      '/contact': contactPage,
+    }
+
+    const page = pages[path] || notFoundPage
+    return new Response(page(), { headers })
   }
 }
 
-const L = {
-  zh: {
-    navF1: '功能', navF2: '定价', navSignin: '登录', navStart: '开始使用',
-    heroBadge: 'AI 驱动内容创作',
-    heroTitle: '用 <span>AI</span> 创作内容，<br>效率提升 <span>10 倍</span>',
-    heroDesc: 'AI 驱动生成博客文章、社交媒体内容和营销文案。按量付费，无需订阅。',
-    heroCTA: '免费开始', heroPricing: '了解更多',
-    statsUsers: '活跃用户', statsContent: '生成内容', statsCountries: '覆盖国家',
-    featuresTitle: '创作所需的一切', featuresSub: '强大的工具帮助你更快创作更好的内容。',
-    f1Title: '博客文章', f1Desc: '在几秒内生成 SEO 优化的博客文章。选择语气、长度和格式。',
-    f2Title: '社交媒体', f2Desc: '为 Twitter、LinkedIn 和 Instagram 创建 AI 驱动的帖子。',
-    f3Title: '营销文案', f3Desc: '撰写转化率高的邮件、落地页和广告文案。',
-    f4Title: '模板库', f4Desc: '使用经过验证的模板快速为你的行业定制内容。',
-    f5Title: '批量生成', f5Desc: '一次批量生成数十条内容，大幅提高效率。',
-    f6Title: 'API 接入', f6Desc: '将 AI 内容生成集成到你自己的应用和工作流中。',
-    pricingTitle: '简单透明的定价', pricingSub: '无隐藏费用，按需付费。', popular: '最受欢迎',
-    p1Name: '入门版', p1Price: '$9/月', p1Desc: '适合个人用户',
-    p1F1: '每月 50 次生成', p1F2: '基础模板', p1F3: '邮件支持', p1Btn: '开始使用',
-    p2Name: '专业版', p2Price: '$29/月', p2Desc: '适合专业人士和团队',
-    p2F1: '每月 500 次生成', p2F2: '全部模板', p2F3: '优先支持',
-    p2F4: 'API 接入', p2F5: '批量生成', p2Btn: '开始使用',
-    p3Name: '企业版', p3Price: '定制', p3Desc: '适合大规模部署',
-    p3F1: '无限生成', p3F2: '定制模板', p3F3: '专属支持',
-    p3F4: 'SSO & SAML', p3F5: 'SLA 保障', p3Btn: '联系销售',
-    ctaTitle: '准备好开始了吗？', ctaDesc: '立即注册，免费试用。无需信用卡。', ctaBtn: '免费开始',
-    footer: '© 2026 Solix 保留所有权利'
-  },
-  en: {
-    navF1: 'Features', navF2: 'Pricing', navSignin: 'Sign In', navStart: 'Get Started',
-    heroBadge: 'AI-Powered Content Creation',
-    heroTitle: 'Create Content with <span>AI</span>,<br><span>10x</span> Faster',
-    heroDesc: 'Generate blog posts, social media content, and marketing copy powered by AI.',
-    heroCTA: 'Start Free', heroPricing: 'Learn More',
-    statsUsers: 'Active Users', statsContent: 'Content Generated', statsCountries: 'Countries',
-    featuresTitle: 'Everything you need to create', featuresSub: 'Powerful tools to help you create better content faster.',
-    f1Title: 'Blog Posts', f1Desc: 'Generate SEO-optimized blog posts in seconds. Choose tone, length, and format.',
-    f2Title: 'Social Media', f2Desc: 'Create engaging posts for Twitter, LinkedIn, and Instagram with AI.',
-    f3Title: 'Marketing Copy', f3Desc: 'Write compelling emails, landing pages, and ad copy that converts.',
-    f4Title: 'Templates', f4Desc: 'Start with proven templates designed for your industry and audience.',
-    f5Title: 'Bulk Generate', f5Desc: 'Generate dozens of pieces of content at once with batch processing.',
-    f6Title: 'API Access', f6Desc: 'Integrate our AI content generation into your own apps and workflows.',
-    pricingTitle: 'Simple, transparent pricing', pricingSub: 'No hidden fees. Pay only for what you use.', popular: 'Most Popular',
-    p1Name: 'Starter', p1Price: '$9/mo', p1Desc: 'For individuals getting started',
-    p1F1: '50 generations/mo', p1F2: 'Basic templates', p1F3: 'Email support', p1Btn: 'Get Started',
-    p2Name: 'Pro', p2Price: '$29/mo', p2Desc: 'For professionals and teams',
-    p2F1: '500 generations/mo', p2F2: 'All templates', p2F3: 'Priority support',
-    p2F4: 'API access', p2F5: 'Bulk generation', p2Btn: 'Get Started',
-    p3Name: 'Enterprise', p3Price: 'Custom', p3Desc: 'For large scale deployments',
-    p3F1: 'Unlimited generations', p3F2: 'Custom templates', p3F3: 'Dedicated support',
-    p3F4: 'SSO & SAML', p3F5: 'SLA guarantee', p3Btn: 'Contact Sales',
-    ctaTitle: 'Ready to get started?', ctaDesc: 'Sign up for free. No credit card required.', ctaBtn: 'Start Free',
-    footer: '© 2026 Solix. All rights reserved.'
-  }
-}
+const nav = `
+<nav>
+<div class="nav-inner">
+<a href="/" class="logo">solix</a>
+<div class="nav-center">
+<a href="/features">Features</a>
+<a href="/pricing">Pricing</a>
+<a href="/docs">Docs</a>
+</div>
+<div class="nav-right">
+<a href="/contact" class="btn-outline">Contact</a>
+<a href="/pricing" class="btn">Get Started</a>
+</div>
+</div>
+</nav>`
 
-function landingPage() {
-  return `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Solix - AI Content Studio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+const footer = `
+<footer>
+<div class="f-grid">
+<div class="f-col"><h4>solix</h4><p>AI-powered content creation platform. Generate better content faster.</p></div>
+<div class="f-col"><h4>Product</h4><a href="/features">Features</a><a href="/pricing">Pricing</a><a href="/docs">Docs</a></div>
+<div class="f-col"><h4>Company</h4><a href="/contact">Contact</a><a href="/docs">Blog</a><a href="/docs">About</a></div>
+<div class="f-col"><h4>Legal</h4><a href="/docs">Privacy</a><a href="/docs">Terms</a></div>
+</div>
+<p class="f-copy">© 2026 Solix. All rights reserved.</p>
+</footer>`
+
+const css = `
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:Inter,system-ui,-apple-system,sans-serif;background:#f8fafd;color:#0b1a2e;overflow-x:hidden;line-height:1.6}
 ::selection{background:#2563eb;color:#fff}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,250,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,250,253,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
 .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;max-width:1280px;margin:0 auto}
-.logo{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#1e40af,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#1e40af,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
 .nav-center{display:flex;gap:2.5rem;align-items:center}
 .nav-center a{color:#4a5a72;text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
 .nav-center a:hover{color:#2563eb}
 .nav-right{display:flex;gap:.75rem;align-items:center}
-.lang-btn{background:0 0;border:1px solid #d0d8e6;border-radius:8px;padding:.35rem .65rem;font-size:.8rem;cursor:pointer;color:#4a5a72;transition:all .2s;font-weight:500}
-.lang-btn:hover{border-color:#93a5c1;color:#0b1a2e}
 .btn{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.6rem 1.5rem;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-block}
 .btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(37,99,235,.3)}
 .btn-outline{background:0 0;color:#0b1a2e;border:1.5px solid #d0d8e6;padding:.55rem 1.45rem;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-block}
 .btn-outline:hover{border-color:#93a5c1;background:rgba(0,0,0,.02)}
-.hero{position:relative;padding:10rem 2rem 6rem;text-align:center;overflow:hidden}
-.hero-bg{position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(37,99,235,.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(124,58,237,.06) 0%,transparent 60%);pointer-events:none}
-.hero-content{position:relative;max-width:800px;margin:0 auto}
-.hero-badge{display:inline-block;background:rgba(37,99,235,.1);color:#2563eb;padding:.35rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;margin-bottom:1.5rem}
-.hero h1{font-size:3.8rem;font-weight:800;letter-spacing:-.04em;line-height:1.12;margin-bottom:1.5rem;color:#0b1a2e}
+.container{max-width:1280px;margin:0 auto;padding:0 2rem}
+section{padding:6rem 2rem}
+.section-title{text-align:center;font-size:2.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1rem}
+.section-sub{text-align:center;color:#4a5a72;font-size:1.05rem;margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.card{background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2rem;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.06)}
+.card-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(124,58,237,.1));border-radius:12px;margin-bottom:1.25rem}
+.card h3{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.card p{color:#4a5a72;font-size:.9rem;line-height:1.65}
+.hero{text-align:center;padding:10rem 2rem 4rem}
+.hero h1{font-size:3.8rem;font-weight:800;letter-spacing:-.04em;line-height:1.12;margin-bottom:1rem}
 .hero h1 span{background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:1.15rem;color:#4a5a72;margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7}
+.hero p{font-size:1.15rem;color:#4a5a72;margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto}
 .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .hero-btns .btn,.hero-btns .btn-outline{padding:.85rem 2rem;font-size:1rem}
-.stats{display:flex;justify-content:center;gap:4rem;padding:3rem 2rem 0;max-width:800px;margin:0 auto}
-.stat{text-align:center}
-.stat-num{font-size:2rem;font-weight:800;color:#0b1a2e;letter-spacing:-.03em}
-.stat-label{font-size:.85rem;color:#7a8ba7;margin-top:.25rem}
-.features{max-width:1200px;margin:0 auto;padding:6rem 2rem}
-.features-header{text-align:center;max-width:600px;margin:0 auto 4rem}
-.features-header h2{font-size:2.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1rem}
-.features-header p{color:#4a5a72;font-size:1.05rem}
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.feature-card{background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2rem;transition:transform .25s,box-shadow .25s}
-.feature-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.06)}
-.feature-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:linear-gradient(135deg,rgba(37,99,235,.1),rgba(124,58,237,.1));border-radius:12px;margin-bottom:1.25rem}
-.feature-card h3{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
-.feature-card p{color:#4a5a72;font-size:.9rem;line-height:1.65}
-.pricing{max-width:1200px;margin:0 auto;padding:6rem 2rem}
-.pricing-header{text-align:center;max-width:600px;margin:0 auto 4rem}
-.pricing-header h2{font-size:2.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1rem}
-.pricing-header p{color:#4a5a72;font-size:1.05rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1000px;margin:0 auto}
-.price-card{background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2.5rem 2rem;text-align:center;position:relative;transition:transform .25s,box-shadow .25s}
-.price-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.06)}
-.price-card.featured{border-color:#2563eb;box-shadow:0 4px 24px rgba(37,99,235,.1)}
-.price-card.featured .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.25rem 1rem;border-radius:100px;font-size:.75rem;font-weight:600}
-.price-name{color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03rem}
-.price-value span{font-size:1rem;font-weight:400;color:#7a8ba7}
-.price-desc{color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem}
-.price-features{list-style:none;text-align:left;margin-bottom:2rem;display:flex;flex-direction:column;gap:.6rem}
-.price-features li{color:#3a4a62;font-size:.9rem;display:flex;align-items:center;gap:.5rem}
-.price-features li:before{content:"✓";width:18px;height:18px;background:#e8f0fe;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#2563eb;flex-shrink:0}
-.price-card .btn,.price-card .btn-outline{width:100%;display:block;text-align:center;padding:.8rem 0;font-size:.9rem}
-.cta{max-width:1200px;margin:0 auto;padding:2rem;text-align:center}
-.cta-box{background:linear-gradient(135deg,#1e3a6f,#312e81);border-radius:20px;padding:4rem 2rem;color:#fff}
-.cta-box h2{font-size:2.2rem;font-weight:700;margin-bottom:1rem}
-.cta-box p{opacity:.8;font-size:1.05rem;margin-bottom:2rem}
-.cta-box .btn{background:#fff;color:#1e3a6f;font-weight:700}
-.cta-box .btn:hover{box-shadow:0 8px 25px rgba(255,255,255,.25)}
-footer{text-align:center;padding:3rem 2rem;color:#7a8ba7;font-size:.85rem;max-width:1200px;margin:0 auto}
+footer{background:#fff;border-top:1px solid #eef2f8;padding:4rem 2rem 2rem}
+.f-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1280px;margin:0 auto}
+.f-col h4{font-size:.9rem;font-weight:600;margin-bottom:1rem;color:#0b1a2e}
+.f-col p{color:#7a8ba7;font-size:.85rem;line-height:1.6}
+.f-col a{display:block;color:#7a8ba7;text-decoration:none;font-size:.85rem;padding:.25rem 0;transition:color .2s}
+.f-col a:hover{color:#2563eb}
+.f-copy{text-align:center;color:#7a8ba7;font-size:.8rem;padding-top:2rem;margin-top:2rem;border-top:1px solid #eef2f8;max-width:1280px;margin-left:auto;margin-right:auto}
+.page-header{background:linear-gradient(135deg,#f0f4ff,#f5f0ff);padding:8rem 2rem 3rem;text-align:center}
+.page-header h1{font-size:2.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.5rem}
+.page-header p{color:#4a5a72;font-size:1.1rem}
+.badge{display:inline-block;background:rgba(37,99,235,.1);color:#2563eb;padding:.3rem .9rem;border-radius:100px;font-size:.8rem;font-weight:600;margin-bottom:1rem}
 @media(max-width:768px){
-  .hero h1{font-size:2.4rem}.feature-grid,.pricing-grid{grid-template-columns:1fr}
-  .stats{flex-direction:column;gap:1.5rem}.nav-center{display:none}.hero{padding:7rem 1.5rem 4rem}
+  .hero h1{font-size:2.4rem}.grid-3{grid-template-columns:1fr}
+  .nav-center{display:none}.hero{padding:7rem 1.5rem 3rem}
+  .f-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:1024px)and(min-width:769px){
-  .feature-grid,.pricing-grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
-</head>
+@media(max-width:1024px)and(min-width:769px){.grid-3{grid-template-columns:repeat(2,1fr)}}
+`
+
+function shell(title, content) {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${title} - Solix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>${css}</style></head>
 <body>
-
-<nav>
-<div class="nav-inner">
-<div class="logo">solix</div>
-<div class="nav-center">
-<a href="#features" data-i18n="navF1">Features</a>
-<a href="#pricing" data-i18n="navF2">Pricing</a>
-</div>
-<div class="nav-right">
-<select class="lang-btn" id="langSelect">
-<option value="zh">中文</option>
-<option value="en">English</option>
-</select>
-<a href="/pricing" class="btn-outline" data-i18n="navSignin">Sign In</a>
-<a href="/pricing" class="btn" data-i18n="navStart">Get Started</a>
-</div>
-</div>
-</nav>
-
-<section class="hero">
-<div class="hero-bg"></div>
-<div class="hero-content">
-<div class="hero-badge" data-i18n="heroBadge">AI-Powered Content Creation</div>
-<h1 data-i18n="heroTitle">Create Content with <span>AI</span>,<br><span>10x</span> Faster</h1>
-<p data-i18n="heroDesc">Generate blog posts, social media content, and marketing copy powered by AI.</p>
-<div class="hero-btns">
-<a href="/pricing" class="btn" data-i18n="heroCTA">Start Free</a>
-<a href="#features" class="btn-outline" data-i18n="heroPricing">Learn More</a>
-</div>
-<div class="stats">
-<div class="stat"><div class="stat-num">50K+</div><div class="stat-label" data-i18n="statsUsers">Active Users</div></div>
-<div class="stat"><div class="stat-num">1M+</div><div class="stat-label" data-i18n="statsContent">Content Generated</div></div>
-<div class="stat"><div class="stat-num">120+</div><div class="stat-label" data-i18n="statsCountries">Countries</div></div>
-</div>
-</div>
-</section>
-
-<section class="features" id="features">
-<div class="features-header">
-<h2 data-i18n="featuresTitle">Everything you need to create</h2>
-<p data-i18n="featuresSub">Powerful tools to help you create better content faster.</p>
-</div>
-<div class="feature-grid">
-<div class="feature-card"><div class="feature-icon">✍️</div><h3 data-i18n="f1Title">Blog Posts</h3><p data-i18n="f1Desc">Generate SEO-optimized blog posts in seconds.</p></div>
-<div class="feature-card"><div class="feature-icon">📱</div><h3 data-i18n="f2Title">Social Media</h3><p data-i18n="f2Desc">Create engaging posts for Twitter, LinkedIn, and Instagram with AI.</p></div>
-<div class="feature-card"><div class="feature-icon">📧</div><h3 data-i18n="f3Title">Marketing Copy</h3><p data-i18n="f3Desc">Write compelling emails, landing pages, and ad copy that converts.</p></div>
-<div class="feature-card"><div class="feature-icon">🎨</div><h3 data-i18n="f4Title">Templates</h3><p data-i18n="f4Desc">Start with proven templates designed for your industry.</p></div>
-<div class="feature-card"><div class="feature-icon">⚡</div><h3 data-i18n="f5Title">Bulk Generate</h3><p data-i18n="f5Desc">Generate dozens of pieces of content at once with batch processing.</p></div>
-<div class="feature-card"><div class="feature-icon">🔗</div><h3 data-i18n="f6Title">API Access</h3><p data-i18n="f6Desc">Integrate AI content generation into your own apps and workflows.</p></div>
-</div>
-</section>
-
-<section class="pricing" id="pricing">
-<div class="pricing-header">
-<h2 data-i18n="pricingTitle">Simple, transparent pricing</h2>
-<p data-i18n="pricingSub">No hidden fees. Pay only for what you use.</p>
-</div>
-<div class="pricing-grid">
-<div class="price-card">
-<div class="price-name" data-i18n="p1Name">Starter</div>
-<div class="price-value" data-i18n="p1Price">$9<span>/mo</span></div>
-<div class="price-desc" data-i18n="p1Desc">For individuals getting started</div>
-<ul class="price-features">
-<li data-i18n="p1F1">50 generations/mo</li>
-<li data-i18n="p1F2">Basic templates</li>
-<li data-i18n="p1F3">Email support</li>
-</ul>
-<a href="/pricing" class="btn-outline" data-i18n="p1Btn">Get Started</a>
-</div>
-<div class="price-card featured">
-<div class="badge" data-i18n="popular">Most Popular</div>
-<div class="price-name" data-i18n="p2Name">Pro</div>
-<div class="price-value" data-i18n="p2Price">$29<span>/mo</span></div>
-<div class="price-desc" data-i18n="p2Desc">For professionals and teams</div>
-<ul class="price-features">
-<li data-i18n="p2F1">500 generations/mo</li>
-<li data-i18n="p2F2">All templates</li>
-<li data-i18n="p2F3">Priority support</li>
-<li data-i18n="p2F4">API access</li>
-<li data-i18n="p2F5">Bulk generation</li>
-</ul>
-<a href="/pricing" class="btn" data-i18n="p2Btn">Get Started</a>
-</div>
-<div class="price-card">
-<div class="price-name" data-i18n="p3Name">Enterprise</div>
-<div class="price-value" data-i18n="p3Price">Custom</div>
-<div class="price-desc" data-i18n="p3Desc">For large scale deployments</div>
-<ul class="price-features">
-<li data-i18n="p3F1">Unlimited generations</li>
-<li data-i18n="p3F2">Custom templates</li>
-<li data-i18n="p3F3">Dedicated support</li>
-<li data-i18n="p3F4">SSO & SAML</li>
-<li data-i18n="p3F5">SLA guarantee</li>
-</ul>
-<a href="/pricing" class="btn-outline" data-i18n="p3Btn">Contact Sales</a>
-</div>
-</div>
-</section>
-
-<section class="cta">
-<div class="cta-box">
-<h2 data-i18n="ctaTitle">Ready to get started?</h2>
-<p data-i18n="ctaDesc">Sign up for free. No credit card required.</p>
-<a href="/pricing" class="btn" data-i18n="ctaBtn">Start Free</a>
-</div>
-</section>
-
-<footer><p data-i18n="footer">© 2026 Solix. All rights reserved.</p></footer>
-
-<script>
-const D = ${JSON.stringify(L)};
-function setLang(l) {
-  document.documentElement.lang = l;
-  document.querySelectorAll('[data-i18n]').forEach(e => {
-    const k = e.getAttribute('data-i18n');
-    if (D[l] && D[l][k]) e.innerHTML = D[l][k];
-  });
-}
-document.getElementById('langSelect').addEventListener('change', function() { setLang(this.value); });
-(function() {
-  const l = navigator.language.startsWith('zh') ? 'zh' : 'en';
-  document.getElementById('langSelect').value = l;
-  setLang(l);
-})();
-</script>
+${nav}
+${content}
+${footer}
 </body>
 </html>`
+}
+
+function landingPage() {
+  return shell('AI Content Studio', `
+<section class="hero">
+<div class="badge">AI-Powered Content Creation</div>
+<h1>Create Content with <span>AI</span>,<br><span>10x</span> Faster</h1>
+<p>Generate blog posts, social media content, and marketing copy powered by AI. Pay as you go. No subscription required.</p>
+<div class="hero-btns">
+<a href="/pricing" class="btn">Start Free</a>
+<a href="/features" class="btn-outline">Learn More</a>
+</div>
+</section>
+<section style="padding-top:0">
+<div class="container" style="text-align:center">
+<div style="display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;padding:2rem 0">
+<div><div style="font-size:2rem;font-weight:800">50K+</div><div style="color:#7a8ba7;font-size:.85rem">Active Users</div></div>
+<div><div style="font-size:2rem;font-weight:800">1M+</div><div style="color:#7a8ba7;font-size:.85rem">Content Generated</div></div>
+<div><div style="font-size:2rem;font-weight:800">120+</div><div style="color:#7a8ba7;font-size:.85rem">Countries</div></div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="section-title">Everything you need to create</h2>
+<p class="section-sub">Powerful tools to help you create better content faster.</p>
+<div class="container"><div class="grid-3">
+<div class="card"><div class="card-icon">✍️</div><h3>Blog Posts</h3><p>Generate SEO-optimized blog posts in seconds. Choose tone, length, and format.</p></div>
+<div class="card"><div class="card-icon">📱</div><h3>Social Media</h3><p>Create engaging posts for Twitter, LinkedIn, and Instagram with AI.</p></div>
+<div class="card"><div class="card-icon">📧</div><h3>Marketing Copy</h3><p>Write compelling emails, landing pages, and ad copy that converts.</p></div>
+<div class="card"><div class="card-icon">🎨</div><h3>Templates</h3><p>Start with proven templates designed for your industry and audience.</p></div>
+<div class="card"><div class="card-icon">⚡</div><h3>Bulk Generate</h3><p>Generate dozens of pieces of content at once with batch processing.</p></div>
+<div class="card"><div class="card-icon">🔗</div><h3>API Access</h3><p>Integrate AI content generation into your own apps and workflows.</p></div>
+</div></div>
+</section>
+<section style="background:linear-gradient(135deg,#1e3a6f,#312e81);color:#fff;text-align:center">
+<div class="container">
+<h2 style="font-size:2.2rem;font-weight:700;margin-bottom:1rem">Ready to get started?</h2>
+<p style="opacity:.8;font-size:1.05rem;margin-bottom:2rem">Sign up for free. No credit card required.</p>
+<a href="/pricing" style="background:#fff;color:#1e3a6f;font-weight:700" class="btn">Start Free</a>
+</div>
+</section>`)
 }
 
 function pricingPage() {
-  return `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pricing - Solix</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,system-ui,-apple-system,sans-serif;background:#f8fafd;color:#0b1a2e;line-height:1.6}
-nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;max-width:1280px;margin:0 auto;background:rgba(248,250,253,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
-.logo{font-size:1.4rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#1e40af,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;gap:2rem;align-items:center}
-.nav-links a{color:#4a5a72;text-decoration:none;font-size:.9rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:#2563eb}
-.pricing{max-width:1000px;margin:0 auto;padding:4rem 2rem}
-.pricing h1{text-align:center;font-size:2.5rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem}
-.pricing p{text-align:center;color:#4a5a72;margin-bottom:3rem;font-size:1.05rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.price-card{background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2.5rem 2rem;text-align:center;position:relative}
-.price-card.featured{border-color:#2563eb;box-shadow:0 4px 24px rgba(37,99,235,.1)}
-.price-card.featured .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.25rem 1rem;border-radius:100px;font-size:.75rem;font-weight:600}
-.price-name{color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-.price-value{font-size:2.8rem;font-weight:800;margin-bottom:.25rem;letter-spacing:-.03rem}
-.price-value span{font-size:1rem;font-weight:400;color:#7a8ba7}
-.price-desc{color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem}
-.price-features{list-style:none;text-align:left;margin-bottom:2rem}
-.price-features li{color:#3a4a62;font-size:.9rem;padding:.4rem 0}
-.price-features li:before{content:"✓";color:#2563eb;margin-right:.5rem}
-.btn{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.8rem 0;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;display:block;text-align:center;transition:transform .2s,box-shadow .2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(37,99,235,.3)}
-.btn-outline{background:0 0;color:#0b1a2e;border:1.5px solid #d0d8e6;padding:.75rem 0;border-radius:10px;text-decoration:none;font-size:.9rem;font-weight:600;display:block;text-align:center;transition:all .2s}
-.btn-outline:hover{border-color:#93a5c1;background:rgba(0,0,0,.02)}
-@media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<nav>
-<a href="/" class="logo">solix</a>
-<div class="nav-links"><a href="/">Home</a></div>
-</nav>
-<section class="pricing">
+  return shell('Pricing', `
+<div class="page-header">
 <h1>Pricing</h1>
 <p>Choose the plan that fits your needs</p>
-<div class="pricing-grid">
-<div class="price-card">
-<div class="price-name">Starter</div>
-<div class="price-value">$9<span>/mo</span></div>
-<div class="price-desc">For individuals getting started</div>
-<ul class="price-features">
-<li>50 generations/mo</li><li>Basic templates</li><li>Email support</li>
+</div>
+<section>
+<div class="container"><div class="grid-3" style="max-width:1000px;margin:0 auto">
+<div class="card" style="text-align:center">
+<div style="color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Starter</div>
+<div style="font-size:2.8rem;font-weight:800;margin-bottom:.25rem">$9<span style="font-size:1rem;font-weight:400;color:#7a8ba7">/mo</span></div>
+<div style="color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem">For individuals</div>
+<ul style="list-style:none;text-align:left;margin-bottom:2rem">
+<li style="padding:.35rem 0;font-size:.9rem">✓ 50 generations/mo</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Basic templates</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Email support</li>
 </ul>
-<a href="/" class="btn-outline">Get Started</a>
+<a href="/pricing" class="btn-outline" style="display:block;text-align:center">Get Started</a>
 </div>
-<div class="price-card featured">
-<div class="badge">Most Popular</div>
-<div class="price-name">Pro</div>
-<div class="price-value">$29<span>/mo</span></div>
-<div class="price-desc">For professionals and teams</div>
-<ul class="price-features">
-<li>500 generations/mo</li><li>All templates</li><li>Priority support</li><li>API access</li><li>Bulk generation</li>
+<div class="card" style="text-align:center;border-color:#2563eb;box-shadow:0 4px 24px rgba(37,99,235,.1);position:relative">
+<div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:.25rem 1rem;border-radius:100px;font-size:.75rem;font-weight:600">Most Popular</div>
+<div style="color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Pro</div>
+<div style="font-size:2.8rem;font-weight:800;margin-bottom:.25rem">$29<span style="font-size:1rem;font-weight:400;color:#7a8ba7">/mo</span></div>
+<div style="color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem">For professionals</div>
+<ul style="list-style:none;text-align:left;margin-bottom:2rem">
+<li style="padding:.35rem 0;font-size:.9rem">✓ 500 generations/mo</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ All templates</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Priority support</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ API access</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Bulk generation</li>
 </ul>
-<a href="/" class="btn">Get Started</a>
+<a href="/pricing" class="btn" style="display:block;text-align:center">Get Started</a>
 </div>
-<div class="price-card">
-<div class="price-name">Enterprise</div>
-<div class="price-value">Custom</div>
-<div class="price-desc">For large scale deployments</div>
-<ul class="price-features">
-<li>Unlimited generations</li><li>Custom templates</li><li>Dedicated support</li><li>SSO & SAML</li><li>SLA guarantee</li>
+<div class="card" style="text-align:center">
+<div style="color:#7a8ba7;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Enterprise</div>
+<div style="font-size:2.8rem;font-weight:800;margin-bottom:.25rem">Custom</div>
+<div style="color:#7a8ba7;font-size:.85rem;margin-bottom:1.5rem">For large teams</div>
+<ul style="list-style:none;text-align:left;margin-bottom:2rem">
+<li style="padding:.35rem 0;font-size:.9rem">✓ Unlimited generations</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Custom templates</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ Dedicated support</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ SSO & SAML</li>
+<li style="padding:.35rem 0;font-size:.9rem">✓ SLA guarantee</li>
 </ul>
-<a href="/" class="btn-outline">Contact Sales</a>
+<a href="/pricing" class="btn-outline" style="display:block;text-align:center">Contact Sales</a>
 </div>
+</div></div>
+</section>`)
+}
+
+function featuresPage() {
+  return shell('Features', `
+<div class="page-header">
+<h1>Features</h1>
+<p>Everything you need to create amazing content</p>
 </div>
+<section>
+<div class="container"><div class="grid-3">
+<div class="card"><div class="card-icon">✍️</div><h3>Blog Writing</h3><p>Generate complete blog posts with AI. Choose tone, length, and optimize for SEO automatically.</p></div>
+<div class="card"><div class="card-icon">📱</div><h3>Social Media</h3><p>Create platform-optimized content for Twitter, LinkedIn, Instagram, and more.</p></div>
+<div class="card"><div class="card-icon">📧</div><h3>Email Marketing</h3><p>Write newsletters, cold emails, and follow-ups that get opens and clicks.</p></div>
+<div class="card"><div class="card-icon">🔍</div><h3>SEO Optimization</h3><p>Built-in SEO analysis ensures your content ranks higher in search results.</p></div>
+<div class="card"><div class="card-icon">🌍</div><h3>Multi-language</h3><p>Generate content in 50+ languages while maintaining natural tone and flow.</p></div>
+<div class="card"><div class="card-icon">📊</div><h3>Analytics</h3><p>Track content performance, engagement metrics, and ROI across all channels.</p></div>
+<div class="card"><div class="card-icon">🤖</div><h3>AI Chat</h3><p>Interactive AI assistant helps you refine ideas and improve your writing.</p></div>
+<div class="card"><div class="card-icon">📋</div><h3>Templates</h3><p>200+ professional templates for every content type and industry.</p></div>
+<div class="card"><div class="card-icon">🔗</div><h3>API Access</h3><p>RESTful API for integrating content generation into your existing workflow.</p></div>
+</div></div>
 </section>
-</body>
-</html>`
+<section style="background:linear-gradient(135deg,#f0f4ff,#f5f0ff)">
+<div class="container" style="text-align:center">
+<h2 class="section-title">Compare Plans</h2>
+<p class="section-sub">Find the right plan for your needs</p>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;margin:0 auto;max-width:900px;background:#fff;border-radius:16px;overflow:hidden">
+<tr style="background:#f8fafd"><th style="padding:1rem;text-align:left;border-bottom:1px solid #eef2f8">Feature</th><th style="padding:1rem;text-align:center;border-bottom:1px solid #eef2f8">Starter</th><th style="padding:1rem;text-align:center;border-bottom:1px solid #eef2f8;background:linear-gradient(135deg,rgba(37,99,235,.05),rgba(124,58,237,.05))">Pro</th><th style="padding:1rem;text-align:center;border-bottom:1px solid #eef2f8">Enterprise</th></tr>
+<tr><td style="padding:.8rem 1rem;border-bottom:1px solid #f5f7fa">Generations/mo</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">50</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa;background:rgba(37,99,235,.03)">500</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">Unlimited</td></tr>
+<tr><td style="padding:.8rem 1rem;border-bottom:1px solid #f5f7fa">Templates</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">Basic</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa;background:rgba(37,99,235,.03)">All 200+</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">Custom</td></tr>
+<tr><td style="padding:.8rem 1rem;border-bottom:1px solid #f5f7fa">API Access</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">—</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa;background:rgba(37,99,235,.03)">✓</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">✓</td></tr>
+<tr><td style="padding:.8rem 1rem;border-bottom:1px solid #f5f7fa">Support</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">Email</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa;background:rgba(37,99,235,.03)">Priority</td><td style="padding:.8rem 1rem;text-align:center;border-bottom:1px solid #f5f7fa">Dedicated</td></tr>
+<tr><td style="padding:.8rem 1rem">Price</td><td style="padding:.8rem 1rem;text-align:center">$9/mo</td><td style="padding:.8rem 1rem;text-align:center;background:rgba(37,99,235,.03)">$29/mo</td><td style="padding:.8rem 1rem;text-align:center">Custom</td></tr>
+</table>
+</div>
+</div>
+</section>`)
+}
+
+function docsPage() {
+  return shell('Documentation', `
+<div class="page-header">
+<h1>Documentation</h1>
+<p>Everything you need to get started with Solix</p>
+</div>
+<section>
+<div class="container" style="max-width:900px;margin:0 auto">
+<div class="grid-3" style="margin-bottom:3rem">
+<a href="/docs" style="text-decoration:none;color:inherit"><div class="card"><h3>Quick Start</h3><p>Get up and running in 5 minutes with our quick start guide.</p></div></a>
+<a href="/docs" style="text-decoration:none;color:inherit"><div class="card"><h3>API Reference</h3><p>Complete API documentation with examples and code samples.</p></div></a>
+<a href="/docs" style="text-decoration:none;color:inherit"><div class="card"><h3>Tutorials</h3><p>Step-by-step tutorials for common use cases and workflows.</p></div></a>
+</div>
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2rem">
+<h2 style="font-size:1.5rem;margin-bottom:1rem">Quick Start Guide</h2>
+<div style="color:#4a5a72;font-size:.95rem;line-height:1.8">
+<p>1. <strong>Create an account</strong> — Sign up for free at solix.dpdns.org/pricing</p>
+<p>2. <strong>Choose a template</strong> — Browse our template library or start from scratch</p>
+<p>3. <strong>Generate content</strong> — Describe what you need and let AI do the work</p>
+<p>4. <strong>Edit and refine</strong> — Fine-tune the output with our editor tools</p>
+<p>5. <strong>Publish</strong> — Export directly to your blog, social media, or CMS</p>
+</div>
+</div>
+<div style="margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:12px;padding:1.5rem">
+<h3 style="font-size:1rem;margin-bottom:.5rem">SDKs & Libraries</h3>
+<p style="color:#4a5a72;font-size:.85rem">Node.js, Python, Go, and Rust SDKs available.</p>
+</div>
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:12px;padding:1.5rem">
+<h3 style="font-size:1rem;margin-bottom:.5rem">Integrations</h3>
+<p style="color:#4a5a72;font-size:.85rem">WordPress, Shopify, Webflow, and more.</p>
+</div>
+</div>
+</div>
+</section>`)
+}
+
+function contactPage() {
+  return shell('Contact', `
+<div class="page-header">
+<h1>Contact Us</h1>
+<p>Get in touch with our team</p>
+</div>
+<section>
+<div class="container" style="max-width:700px;margin:0 auto">
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:16px;padding:2.5rem">
+<form id="contactForm" onsubmit="event.preventDefault();alert('Thank you! We will get back to you soon.')">
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-size:.9rem;font-weight:600;margin-bottom:.4rem">Name</label>
+<input type="text" required style="width:100%;padding:.75rem 1rem;border:1.5px solid #d0d8e6;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d0d8e6'">
+</div>
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-size:.9rem;font-weight:600;margin-bottom:.4rem">Email</label>
+<input type="email" required style="width:100%;padding:.75rem 1rem;border:1.5px solid #d0d8e6;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d0d8e6'">
+</div>
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-size:.9rem;font-weight:600;margin-bottom:.4rem">Subject</label>
+<select style="width:100%;padding:.75rem 1rem;border:1.5px solid #d0d8e6;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;background:#fff">
+<option>General Inquiry</option>
+<option>Sales</option>
+<option>Technical Support</option>
+<option>Partnership</option>
+</select>
+</div>
+<div style="margin-bottom:1.5rem">
+<label style="display:block;font-size:.9rem;font-weight:600;margin-bottom:.4rem">Message</label>
+<textarea rows="5" required style="width:100%;padding:.75rem 1rem;border:1.5px solid #d0d8e6;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#d0d8e6'"></textarea>
+</div>
+<button type="submit" class="btn" style="width:100%;padding:.85rem;font-size:1rem">Send Message</button>
+</form>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;text-align:center">
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:12px;padding:1.5rem">
+<div style="font-size:1.5rem;margin-bottom:.5rem">📧</div>
+<div style="font-size:.85rem;color:#4a5a72">hello@solix.dpdns.org</div>
+</div>
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:12px;padding:1.5rem">
+<div style="font-size:1.5rem;margin-bottom:.5rem">💬</div>
+<div style="font-size:.85rem;color:#4a5a72">Live Chat</div>
+</div>
+<div style="background:#fff;border:1px solid #eef2f8;border-radius:12px;padding:1.5rem">
+<div style="font-size:1.5rem;margin-bottom:.5rem">🐦</div>
+<div style="font-size:.85rem;color:#4a5a72">@solix</div>
+</div>
+</div>
+</div>
+</section>`)
+}
+
+function notFoundPage() {
+  return shell('404', `
+<div style="text-align:center;padding:8rem 2rem">
+<h1 style="font-size:6rem;font-weight:800;background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent">404</h1>
+<p style="color:#4a5a72;font-size:1.2rem;margin:1rem 0 2rem">Page not found</p>
+<a href="/" class="btn">Go Home</a>
+</div>`)
 }
